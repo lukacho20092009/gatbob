@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>პროდუქტის დეტალები | 25 გრადუსი</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+GO:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Fira GO', sans-serif; background: #fcfcfc; }
+        .back-btn { transition: 0.3s; }
+        .back-btn:hover { color: #f97316; transform: translateX(-5px); }
+        .spec-item { background: white; padding: 20px; border-radius: 20px; border: 1px solid #f1f5f9; }
+    </style>
+</head>
+<body>
+
+    <nav class="p-8 flex justify-between items-center max-w-7xl mx-auto">
+        <a href="index.html" class="back-btn flex items-center gap-3 font-bold text-slate-900">
+            <i class="fa-solid fa-arrow-left"></i> უკან დაბრუნება
+        </a>
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-orange-600 rounded-xl flex items-center justify-center text-white font-black italic">25</div>
+            <span class="font-black text-xl">გრადუსი</span>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto p-8 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center min-h-[80vh]">
+        <div class="relative group">
+            <div class="absolute inset-0 bg-orange-600/5 rounded-[60px] blur-3xl group-hover:bg-orange-600/10 transition-all"></div>
+            <div class="relative bg-white border border-slate-100 rounded-[60px] p-12 shadow-sm">
+                <img id="productImg" src="" alt="" class="w-full h-auto rounded-[30px]">
+            </div>
+        </div>
+
+        <div class="space-y-10">
+            <div>
+                <span id="productBrand" class="bg-orange-100 text-orange-600 px-6 py-2 rounded-full font-black text-xs uppercase tracking-widest"></span>
+                <h1 id="productName" class="text-6xl font-black text-slate-900 tracking-tighter mt-8 leading-tight"></h1>
+                <p class="text-slate-400 mt-6 text-xl font-medium leading-relaxed">უმაღლესი ხარისხის პროდუქცია ოფიციალური გარანტიით. ჩვენი ინჟინრები უზრუნველყოფენ სრულყოფილ მონტაჟს და სერვისს.</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div class="spec-item">
+                    <p class="text-[10px] font-black text-slate-300 uppercase mb-2">გარანტია</p>
+                    <p class="font-black text-slate-900">5 წელი</p>
+                </div>
+                <div class="spec-item">
+                    <p class="text-[10px] font-black text-slate-300 uppercase mb-2">ენერგოეფექტურობა</p>
+                    <p class="font-black text-green-600">Class A+++</p>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between p-10 bg-slate-950 rounded-[40px] text-white">
+                <div>
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">სპეციალური ფასი</p>
+                    <p id="productPrice" class="text-5xl font-black"></p>
+                </div>
+                <button onclick="window.print()" class="w-20 h-20 bg-white/10 rounded-3xl flex items-center justify-center hover:bg-orange-600 transition-all">
+                    <i class="fa-solid fa-download text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const products = [
+            { id: 1, name: "Bosch Condens 2500W", brand: "BOSCH", price: 2650, img: "https://images.unsplash.com/photo-1585129049162-71fa2b22e521?q=80&w=800" },
+            { id: 2, name: "Ariston Alteas ONE", brand: "ARISTON", price: 2300, img: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=800" },
+            { id: 3, name: "Midea Inverter Extreme", brand: "MIDEA", price: 1450, img: "https://images.unsplash.com/photo-1621905252507-b35222028bd0?q=80&w=800" },
+            { id: 4, name: "LG Side-by-Side InstaView", brand: "LG", price: 4500, img: "https://images.unsplash.com/photo-1571175432270-e837c883d722?q=80&w=800" },
+            { id: 5, name: "Samsung Bespoke AI", brand: "SAMSUNG", price: 1980, img: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800" },
+            { id: 6, name: "Gree Pular Eco Inverter", brand: "GREE", price: 1850, img: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?q=80&w=800" }
+        ];
+
+        function loadProduct() {
+            const params = new URLSearchParams(window.location.search);
+            const id = parseInt(params.get('id'));
+            const p = products.find(item => item.id === id);
+
+            if (p) {
+                document.getElementById('productName').innerText = p.name;
+                document.getElementById('productBrand').innerText = p.brand;
+                document.getElementById('productPrice').innerText = p.price.toLocaleString() + ' ₾';
+                document.getElementById('productImg').src = p.img;
+                document.title = p.name + " | 25 გრადუსი";
+            } else {
+                document.body.innerHTML = "<h1 class='text-center py-20 font-bold'>პროდუქტი არ მოიძებნა</h1>";
+            }
+        }
+
+        window.onload = loadProduct;
+
+        const DB = {
+    categories: [
+        { id: 'cat-1', name: 'გათბობა', icon: 'fa-fire-flame-curved', subs: ['ქვაბები', 'რადიატორები', 'იატაკის გათბობა'] },
+        { id: 'cat-2', name: 'გაგრილება', icon: 'fa-snowflake', subs: ['კონდიციონერი', 'ჩილერი', 'ვენტილაცია'] },
+        { id: 'cat-3', name: 'ტექნიკა', icon: 'fa-kitchen-set', subs: ['მაცივარი', 'სარეცხი', 'ღუმელი', 'ჭურჭლის სარეცხი'] }
+    ],
+    products: [
+        { id: 1, name: "Bosch Condens 2500W Premium", cat: "გათბობა", sub: "ქვაბები", price: 2650, oldPrice: 2950, img: "data:image/webp;base64,UklGRmgEAABXRUJQVlA4IFwEAACQGwCdASqYAJgAPj0cjUQiIaGSGT08IAPEtJffV54Q+l5iCBqqvEr/vXh5o2xx6b6TxUVSA/8yxQQwyfTqEUMZdEPwiYnXDdXiMlnqNu949con77lw2NhOBf7tYGy/5K9+MneKmKKDjomNcInJl02w3L+3ozmIwhIOB72F0NHG/pdDyoN77jK53Rhtb1U/ejpcPpHxzOa0BfvnqT2+9yVyA0OpTQY0OoYwUqvOu5UX67iJWinIqMRIr7dw7XmI4xq+PwwEsvbeJgZuM2Qfm1+yZVfbBe2VircjLSkiFDIHrGCPzJAAAP79yBqOj/TCc28TiD492Ee7tA5z2/OVU+dbbqu1irHuOh2Ebgl1UtQrnkkKmirka0GUSRK6v//WMiCFDrUN4bN8WwSn0/7qxGat9pbX8+RP84NdhTHAWbCy7/0bees5trxjp/91slxh4BqBPefqvQLEn4w9sTaUWWEUVMQldN3144Vm/cE0EMfv2/+Go9NPOCdjZY+vYAh4E48FVxhViUKM24MTNAUIpkjMjSH/UOpAZor+5iAESYjBuXp4yas0fCq9+NEdAqHqetRhqttFnVHSkLHsHFwfQAckAtrNiJXvS+MTNPj4DAYY92n9akofzZol5bmFaagEktlhrgEpLkyz84g2UwkrjHMlixVOC8UsOSb5pD2BWhr3ZpStl2GCb+DAQ57BNNHNawXViKlLJIhWdJbeXTin08+O8na+dIbAe7SLJegvwV/R5rJT7KMkh3VONUr8HKR/Z3gZxLfKr0s0xmRN6qYmw7kWzZ/UU+mQG2mWh0WXWYEQRzrUrCJMJGStSRhWdNwLnXeAROIunRZ6fjRkxS4tpT3CosuqCYhuIdHsa4DkIoy9M1TC5Ov9FvDFZVw4x8Vt6GKSzcTs9cfGD+pCaT/EgzxLQ011Z0daRmILEWsFlf804kvIt1xFG+/hKhc95xEtpdppFhbrojlJsgW49FE+wK5Q2SFqJTHvKLvoAH2UGs99nFZ+oyPTUXYIPv15H9VFdKkWdljOZs6KCcsBPXdXFWKuwbyv9oe4vfW/GQj5fu67Mf/XXpM637kYUDmoYP+CW46t07CtO7ZNFfEadbvsieRyL56ygkgNf4e+X5Mu7wAdlgQAXxxusyrAqPfMIEKEWQTq2Du7YIP/WaxFgeds/p6LngvhzdUC3V7zDirVKJIngITGUxV3lyZp9JQvSNJ75X8uqSPjAlhSFJ5PZMmgVom6btaORRreiP4bhTCO+PJzO8TjmtodO5Cslb5Fh2vpph9Td8hkoAjvb48pAFqioahC8laO41AxlRnixvFy+k6h349qgU2khh7dc/nNcBP+NIKfRNiCKBO80yMM1WHyBphAAUz/eIZEENx0yO1kdxq8EKsybgDCkHt5KWbf+qFgvB70kSDRpwaNlzVuDa87aU086MAb7/chRmylXRFumgIOw+UNZkd6vsymas8ShOThplsI/YW/fxMKyWAAAAA=", brand: "BOSCH", tag: "PREMIUM CHOICE" },
+        { id: 2, name: "Ariston Alteas ONE Net Smart", cat: "გათბობა", sub: "ქვაბები", price: 2150, oldPrice: 2400, img: "https://ariston.kleecks-cdn.com/imgix/pub/media/catalog/product/a/l/alteasone_front_1_1.png?trim=auto&trimmd=0", brand: "ARISTON", tag: "SMART TECH" },
+        { id: 3, name: "Baxi Duo-tec Compact E 24", cat: "გათბობა", sub: "ქვაბები", price: 1850, oldPrice: 2100, img: "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQzWAkplwCpHT88HdqUj15YWmcy2csdP9LzNUTnLQ2AUl0Cd0IhZsjLDdkSHKuP7vtw7T1WHGSduD9t7pR_JM3V5rqdCK1dnQYs1I2COb0t1BIlOyi6NQqf8w&usqp=CAc", brand: "BAXI", tag: "COMPACT" },
+        
+        { id: 4, name: "Daikin Sensira Inverter 12BTU", cat: "გაგრილება", sub: "კონდიციონერი", price: 1950, oldPrice: 2200, img: "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcRv7-Om3cpMC2WCr4bNsHD3d9PPDJcu4FhCkLXuaGyT9xmzIzGtnY8vcHuXN2034fj8rJkOUuV-q-oubLaxVKeEXlw-y-sa1njhLYitOOBF_vL7LT0leJmN-p7mv0NTUpwCsw&usqp=CAc", brand: "DAIKIN", tag: "JAPANESE TECH" },
+        { id: 5, name: "Mitsubishi Heavy Industries 18BTU", cat: "გაგრილება", sub: "კონდიციონერი", price: 2800, oldPrice: null, img: "data:image/webp;base64,UklGRu4CAABXRUJQVlA4IOICAABQFQCdASqYAJgAPj0cjEOiIaGUryxIIAPEtLdugsPNxkxv5gA7J9Om5CmZmZmZmZmZmZlQDqnU0uR3MsAhg83JXZT6dlhHyxb+Q25pUWgTrXdmArjuRqDmdsESQ08Niz2Kzzyr1In0kaodB0p/DAcPXXhImNjYN47P8hIA/6K10B6i24GKv/pGYEnvJo3Mz5+XgfGQdNJUiBbKiTwcOjzaoUELYu0YbZI22T6dNyFMzMygAAD+/YDwAIA1NFa0V4m4MfeuY0SanCvyAK3/vIiM7L/+QUOZGmz/5H9y/gv6oXaju2Ng1iLv+SYiroVS6Xs906fBA9fR1M7d2yW0yxNMpzuH21pmhpK/X/Aj7RGLJp/qCygGkMClA7pttC0FT99cYz8uyb4Tg098W/l3EZwMcuY7ENgvuCamGn7m45zfaEVZJmV9RwanVfM2P3c/BMmhFy0Z/4QqtFH2G/pzO2MaO8PuaWfPHIC94TiXoEWWhbuaja6LNstZ34UfPQU2W8MFY1MUJ3hdS8pNGd5N7EVnqxrPnFNZB5/6s8lR/n/wTks1boPZ7BUQkPYyATsTB8jUmhMebNNE9wklnyhgOkGyV7zFhEPRkLxEpVHWwUZ5JLUlTTghqh3cjG4EquPoXGXU+Cl1GTYw+B98eWzJ295BJD+P/3QotD4JE3rY4YqD5yrLI2rXMI8DKZ3a7Xy7Zsa/8akSItESw7H2xCdvkI4djmgG0gMGWqZT+v/8aW35FowYvu8DdgP3Ucs0+V0tOZbSZ0QfH1oxP9JjcBF4GMyQx8h5/HgdfGZQWBkBBnntSuzB5soEpFcA/vHGFbTiTRWasATgGlaJbjXdSg37H4gK0D0j5VN/6IxjRTlrV9/ov+m4HR5hav3XOpoMTm7uzlBGmh4kCg8ZFK7grj7MNRRzUkD0HjuPX6+5n4Ok6Co+jzZn0xkrBYppGKKY/I8z8e9D6dmh8RV49f4aQzvgAAAAAAA=", brand: "MITSUBISHI", tag: "ULTRA POWER" },
+        { id: 6, name: "Midea Inverter Extreme 12BTU", cat: "გაგრილება", sub: "კონდიციონერი", price: 1280, oldPrice: 1550, img: "data:image/webp;base64,UklGRlwEAABXRUJQVlA4IFAEAABwHACdASqYAJgAPj0ejEQiIaGU2VxYIAPEtJnbv8Jx9G0zwfrJmZg+NPavgKovnByRj0GZgX9dcza0B9oH1R8LH/vOvX6AAzq7zagJtXm93m1ATasycVTy0E0JA42zzlqNti9jj1wAOH4OlZPgPi20+iVkciRRXZXeQSILVmaq9UGzmFOnp1PUBPto4p9Fv2klWswTfkWsVafRJy2XdcHF86esO5fyMnIWMjsczOxKXA6MB5WE/tnkKNUt6R75tVF8qt36/7YOoxK/bJnngm/cOd1VqV68w7aoRJ9Le7zagJtXm93m1ATavN7gAAD+/YDwAAAAAve90dv5R3EKu2qM2Yq/hA7AGsztc8p7mw3V6HsZmov9Bt+N2dwBGaFwCKMiXf+h1/AJdLS+uqVwqxuR3culRRdT07H2zVnOQgAD1WJLniymO96n5Y7Glu2I+TCOlhQ6FsyYdluc9zT1Dn2UWaIxsFRiFAKF5ncYeQTsf/X/7++CXbY76neaAxG37VbXx9C0XiGf0kg/gUpnY0c0xpEbz0pm3g4/+Z9Mx7Ob9h0B6/zdzrIMu85AHBieTJy4P4ufj46lnbhxj4tW9C+CUVQJKxksYzDqP2k+//3HFd//BbuoZBf2VAVlLWWABlHAMpI3r6pjUUUuC3jer1U1+Ker4GSl2U3XrRhYK5RsPQiQ3+c/xmxEsYG7qjfFSMuNKW4pTWqNvwZYhCWhgR7rhmPByAk/qvgzPi9R58GXatzMZS+nuQC3QP3fAL2kgaJZ1I6O8yxiZWG3sNMkWTECAYHom48Dk0Weg3+xrblmOJ4xjRy7+slfdE1cq7dKFmxBZU5FecPEU7oJjeg2VZSd0bbAK+KTd3W6rZxDR/c4HN00vKN4xHphp1zyeblqQiLh8KWUj5hqGqSLhzlqBtOnM8bujLFC7Hpy79G8xMoXHa6arv97Co/FAODac4fsQ+gtag7tIcTd+vQIZaVtDRiRiy0fAmi4mntaqJ4SGHfpmvTBaczy39YlyIYxit7Qgl3F0ugoxnA5Qv457lLQlAqqEBTYUukK5k+7zGpk8RD1yiSr12fNdbMriKUJMnMJNoRS4rRrCIBmNFOpjy/QpXKzBKqwndAxs2pT3NPJGt1iOv2geX3HhRLPJ24YAvfrDAxeAOmSuSunWEQWLbCM80zhQtv/x90IsFL6pie9pFqPO68G7iuJZDqqTkPhmpbDzX08HERdzH/6H/59cQZ/+DXOyzafJeasA6o773u+TI0ZvRS1LYiuhF/F0GGP/zKF1kUBbvxRDRgBd8yMSGzZolDVRHUR4vOZo2LNM8DVb7/cf1dpQ/LNHWgFdpjULwyos8mX5Gz/5zhkxghOL9JfAtZZa3wmm3NQP3tvnNV1I1vEKlFJXJzY1We58DUXDKvajQP8gVOdk0tbWt7N5z5Y6buJGWqfN4hy7xX/OzveYG06JUAuNEh/KDLgAAAAAAAAAAA=", brand: "MIDEA", tag: "ECO ENERGY" },
+        { id: 7, name: "Gree Pular Eco Inverter 12BTU", cat: "გაგრილება", sub: "კონდიციონერი", price: 1350, oldPrice: 1500, img: "data:image/jpeg;base64,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", brand: "GREE", tag: "BEST SELLER" },
+
+        { id: 8, name: "LG Side-by-Side InstaView", cat: "ტექნიკა", sub: "მაცივარი", price: 4200, oldPrice: 4900, img: "https://images.unsplash.com/photo-1571175432270-e837c883d722?q=80&w=800", brand: "LG", tag: "LUXURY DESIGN" },
+        { id: 9, name: "Samsung Bespoke Silver Edition", cat: "ტექნიკა", sub: "მაცივარი", price: 3100, oldPrice: 3450, img: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800", brand: "SAMSUNG", tag: "CUSTOMIZABLE" },
+        
+        { id: 10, name: "Samsung Bespoke AI Laundry", cat: "ტექნიკა", sub: "სარეცხი", price: 1980, oldPrice: null, img: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800", brand: "SAMSUNG", tag: "AI INTEGRATED" },
+        { id: 11, name: "Miele W1 Excellence", cat: "ტექნიკა", sub: "სარეცხი", price: 3800, oldPrice: 4200, img: "https://images.unsplash.com/photo-1626806819282-2c1dc61a5e0c?q=80&w=800", brand: "MIELE", tag: "GERMAN QUALITY" },
+
+        { id: 12, name: "Fondital Exclusivo B3", cat: "გათბობა", sub: "რადიატორები", price: 28, oldPrice: 32, img: "https://images.unsplash.com/photo-1521203348003-99738f656041?q=80&w=800", brand: "FONDITAL", tag: "PER SECTION" },
+        { id: 13, name: "Rehau Rautherm S Pipe", cat: "გათბობა", sub: "იატაკის გათბობა", price: 4.50, oldPrice: null, img: "https://images.unsplash.com/photo-1581092921461-7d15bd894236?q=80&w=800", brand: "REHAU", tag: "PRO SERIES" },
+
+        { id: 14, name: "Bosch Serie 6 Built-in Oven", cat: "ტექნიკა", sub: "ღუმელი", price: 1450, oldPrice: 1680, img: "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=800", brand: "BOSCH", tag: "PERFECT BAKE" },
+        { id: 15, name: "Whirlpool 6th Sense Dishwasher", cat: "ტექნიკა", sub: "ჭურჭლის სარეცხი", price: 1150, oldPrice: 1300, img: "https://images.unsplash.com/photo-1584622781564-1d9876a13d00?q=80&w=800", brand: "WHIRLPOOL", tag: "WATER SAVE" }
+    ]
+};
+    </script>
+</body>
+</html>
